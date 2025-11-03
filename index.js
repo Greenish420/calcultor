@@ -22,6 +22,7 @@ const buttonValues = [
   ".",
   "=",
 ];
+const mq = window.matchMedia("(max-width: 800px)");
 const topValues = ["AC", "+/-", "%"];
 const rightValues = ["÷", "×", "-", "+", "="];
 const buttons_container = document.getElementById("buttons_container");
@@ -34,7 +35,16 @@ for (let i = 0; i < buttonValues.length; i++) {
   btn.textContent = buttonValues[i];
   if (buttonValues[i] == "0") {
     btn.style.gridColumn = "span 2";
-    btn.style.width = "6em";
+    if(mq.matches )
+      btn.style.width = "4em";
+    else  
+      btn.style.width = "6em";
+  mq.addEventListener("change", (e) => {
+    if(mq.matches )
+      btn.style.width = "4em";
+    else  
+      btn.style.width = "6em";
+   });
   } else if (topValues.includes(buttonValues[i])) {
     btn.style.backgroundColor = "white";
     btn.style.color = "black";
