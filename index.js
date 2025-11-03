@@ -1,4 +1,5 @@
 const display = document.getElementById('display');
+let readOnly = false;
 const buttonValues = [
     "AC", "+/-", "%", "÷",
     "7", "8", "9", "×",
@@ -30,16 +31,46 @@ for (let i = 0; i < buttonValues.length; i++) {
     }
     btn.addEventListener("click", function () {
         if (btn.textContent == "0") {
-            if (display.value != "0")
-                display.value += "0";
+            if (!readOnly) {
+                if (display.value != "0")
+                    display.value += "0";
+            }
+            else {
+                display.value = '';
+                if (display.value != "0")
+                    display.value += "0";
+            }
         }
         else if (btn.textContent == ".") {
-            if (display.value != "" && !display.value.includes('.')) {
-                display.value += '.';
+            if (!readOnly) {
+                if (!display.value.includes('.')) {
+                    if (display.value != "") {
+                        display.value += '.';
+                    }
+                    else {
+                        display.value += "0";
+                        display.value += ".";
+                    }
+
+                }
+            }
+            else {
+                display.value = '';
+                if (!display.value.includes('.')) {
+                    if (display.value != "") {
+                        display.value += '.';
+                    }
+                    else {
+                        display.value += "0";
+                        display.value += ".";
+                    }
+
+                }
             }
         }
         else if (topValues.includes(btn.textContent)) {
             if (btn.textContent == topValues[0]) {
+                readOnly = false;
                 display.value = '';
                 clearAll();
             }
@@ -54,54 +85,61 @@ for (let i = 0; i < buttonValues.length; i++) {
                 }
             }
             else {
+
                 display.value = Number(display.value) / 100;
+
             }
         }
         else if (rightValues.includes(btn.textContent)) {
             if (btn.textContent != '=') {
-                if (operator == null) {
-                    A = Number(display.value);
-                    display.value = "";
+                readOnly = false;
+                if (A != 0) {
+                    B = Number(display.value);
+                    display.value = '';
+                    calculate();
+                    clearAll();
                     operator = btn.textContent;
+                    readOnly = true;
+                    A = Number(display.value);
+                }
+                else if (A == 0) {
+                    if (operator == null) {
+                        A = Number(display.value);
+                        display.value = "";
+                        operator = btn.textContent;
+                    }
                 }
             }
             else {
-                if (operator != null) {
+                if (!readOnly) {
+                    if (operator != null) {
 
 
-                    B = Number(display.value);
-                    switch (operator) {
-                        case '+':
-
-                            display.value = A + B;
-
-                            break;
-
-                        case '-':
-
-                            display.value = A - B;
-
-                            break;
-
-                        case '×':
-
-                            display.value = A * B;
-
-                            break;
-
-                        case '÷':
-
-                            display.value = A / B;
-
-                            break;
+                        B = Number(display.value);
+                        calculate();
+                        readOnly = true;
                     }
+                }
+                else{
+                    B = Number(display.value);
+                    display.value = '';
+                    calculate();
                     clearAll();
+                    readOnly = true;
+                    
                 }
             }
 
 
         } else {
-            display.value += btn.textContent;
+            if (!readOnly) {
+                display.value += btn.textContent;
+            }
+            else {
+                display.value = '';
+                display.value += btn.textContent;
+            }
+
         }
     });
     buttons_container.appendChild(btn);
@@ -111,4 +149,35 @@ function clearAll() {
     A = 0;
     operator = null;
     B = null;
+}
+
+function calculate() {
+
+    switch (operator) {
+        case '+':
+
+            display.value = A + B;
+
+            break;
+
+        case '-':
+
+            display.value = A - B;
+
+            break;
+
+        case '×':
+
+            display.value = A * B;
+
+            break;
+
+        case '÷':
+
+            display.value = A / B;
+
+            break;
+    }
+    clearAll();
+
 }
