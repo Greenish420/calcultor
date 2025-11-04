@@ -60,21 +60,22 @@ button:active {
 @media (max-width: 800px) {
   .calculator {
     width: 200px;
-    height: 400px;
+    height: fit-content;
+    gap :20px;
+    /* height: 400px; */
     padding: 8px; 
-    /* justify-content: center; */
     /* gap: 60px; */
   }
 
   .buttons_container {
     height: 60%;
     grid-template-columns: repeat(4, 45px);
-    grid-auto-rows: 1fr; /* make all rows equal height */
+    grid-auto-rows: 3em; /* make all rows equal height */
     gap: 7px;
-    margin-bottom: 30px;
   }
 
   button {
+    
     width: 2em;   /* fill the column */
     height: 2em;  /* fill the row */
     font-size: 1.5rem;
