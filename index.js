@@ -35,16 +35,12 @@ for (let i = 0; i < buttonValues.length; i++) {
   btn.textContent = buttonValues[i];
   if (buttonValues[i] == "0") {
     btn.style.gridColumn = "span 2";
-    if(mq.matches )
-      btn.style.width = "4em";
-    else  
-      btn.style.width = "6em";
-  mq.addEventListener("change", (e) => {
-    if(mq.matches )
-      btn.style.width = "4em";
-    else  
-      btn.style.width = "6em";
-   });
+    if (mq.matches) btn.style.width = "4em";
+    else btn.style.width = "6em";
+    mq.addEventListener("change", (e) => {
+      if (mq.matches) btn.style.width = "4em";
+      else btn.style.width = "6em";
+    });
   } else if (topValues.includes(buttonValues[i])) {
     btn.style.backgroundColor = "white";
     btn.style.color = "black";
@@ -53,14 +49,17 @@ for (let i = 0; i < buttonValues.length; i++) {
   }
   btn.addEventListener("click", function () {
     if (btn.textContent == "0") {
-      if (!readOnly) {
+      if (readOnly && fullnumber) {
+        display.value = "";
+        fullnumber = false;
         if (display.value != "0") display.value += "0";
       } else {
-        display.value = "";
         if (display.value != "0") display.value += "0";
       }
     } else if (btn.textContent == ".") {
-      if (!readOnly) {
+      if (readOnly && fullnumber) {
+        display.value = "";
+        fullnumber = false;
         if (!display.value.includes(".")) {
           if (display.value != "") {
             display.value += ".";
@@ -70,7 +69,7 @@ for (let i = 0; i < buttonValues.length; i++) {
           }
         }
       } else {
-        display.value = "";
+        
         if (!display.value.includes(".")) {
           if (display.value != "") {
             display.value += ".";
@@ -79,6 +78,7 @@ for (let i = 0; i < buttonValues.length; i++) {
             display.value += ".";
           }
         }
+        
       }
     } else if (topValues.includes(btn.textContent)) {
       if (btn.textContent == topValues[0]) {
