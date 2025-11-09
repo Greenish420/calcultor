@@ -59,7 +59,7 @@ for (let i = 0; i < buttonValues.length; i++) {
     } else if (btn.textContent == ".") {
       if (readOnly && fullnumber) {
         display.value = "";
-        fullnumber = false;
+        fullnumber = false; 
         if (!display.value.includes(".")) {
           if (display.value != "") {
             display.value += ".";
